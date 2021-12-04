@@ -2,13 +2,15 @@
 public class OneCard {
 	private Card[] user_deck;
 	private Card[] ai_deck;
+	private Card[] deck;
+	private Card[] used_deck;
 	
 	public OneCard() {
 		Card[] deck = new Card[54];
-		//deck ¼¯°í
-        //used_card_deck »ı¼º
-        //user_deck ¿¡ 11Àå ºĞ¹è
-        //ai_deck ¿¡ 11Àå ºĞ¹è
+		//deck ì„ê³ 
+        //used_card_deck ìƒì„±
+        //user_deck ì— 11ì¥ ë¶„ë°°
+        //ai_deck ì— 11ì¥ ë¶„ë°°
 	}
 	public Card[] showUserDeck() {
 		return user_deck;
@@ -17,16 +19,23 @@ public class OneCard {
 		return ai_deck;
 	}
 	public boolean isPossible(Card past_c, Card present_c) {
-		//°¡´ÉÇÏ¸é true, used_card_deck¿¡ Ãß°¡ + ÅÏÀ» ³Ñ±æ ¼ö ÀÖ´ÂÁö ÆÇ´Ü + ´ÙÀ½ ÇÃ·¹ÀÌ¾î°¡ ¸ÔÀ» Ä«µå ¼ö ÆÇ´Ü
-        // ºÒ°¡´ÉÇÏ¸é false
+		//ê°€ëŠ¥í•˜ë©´ true, used_card_deckì— ì¶”ê°€ + í„´ì„ ë„˜ê¸¸ ìˆ˜ ìˆëŠ”ì§€ íŒë‹¨ + ë‹¤ìŒ í”Œë ˆì´ì–´ê°€ ë¨¹ì„ ì¹´ë“œ ìˆ˜ íŒë‹¨
+        // ë¶ˆê°€ëŠ¥í•˜ë©´ false
 	}
 	public int showTurn() {
-        // ´©±¸ÀÇ ÅÏÀÎÁö ¸®ÅÏ(ÇÃ·¹ÀÌ¾î = 0, ¿¡ÀÌ¾ÆÀÌ´Â 1)
+        // ëˆ„êµ¬ì˜ í„´ì¸ì§€ ë¦¬í„´(í”Œë ˆì´ì–´ = 0, ì—ì´ì•„ì´ëŠ” 1)
 	}
 	public void giveCards() {
-		// Áà¾ßÇÒ Ä«µå ¼ö¸¸Å­ ÁÖ±â
+		// ì¤˜ì•¼í•  ì¹´ë“œ ìˆ˜ë§Œí¼ ì£¼ê¸°
 	}
 	public void changeShape(String s) {
-		//Ä«µå ¸ğ¾ç ¹Ù²Ù±â
+		//ì¹´ë“œ ëª¨ì–‘ ë°”ê¾¸ê¸°
 	}
+	public void addUsedCard(Card c) {}
+	public Card[] showUsedDeck() {}
+	public Card[] showDeck() {}
+	public int showUserDeckLen()
+	public int showAiDeckLen()
+	public int showDeckLen()
+	public int showUsedDeckLen()
 }

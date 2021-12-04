@@ -6,13 +6,13 @@ public abstract class Player {
 	}
 	public Card giveCard(int n ) {
 		Card c = this.cards[n];
-		//n¹øÂ° ÀÎµ¦½ºÀÇ Ä«µå Á¦°Å
+		//nï¿½ï¿½Â° ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//l -= 1;
 		return c;
 	}
 	public void giveCard(int n) {
 		Card c = this.cards[n]
-		//n¹øÂ° ÀÎµ¦½ºÀÇ Ä«µå Á¦°Å
+		//nï¿½ï¿½Â° ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//l -= 1;
 		return c;
 	}
@@ -26,7 +26,7 @@ public abstract class Player {
 		//return l;
 	}
 	public void check(Card c) {
-		//³¾ ¼ö ÀÖ´ÂÁö È®ÀÎ µÇ¸é ÁÖ°í 1À» ¸®ÅÏ ¾ÈµÇ¸é 0À» ¸®ÅÏ
+		//ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½Ö°ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÇ¸ï¿½ 0ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         //game.isPossible()
         //gameFrame.update()
 	}

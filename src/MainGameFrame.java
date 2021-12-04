@@ -4,7 +4,6 @@ public class MainGameFrame extends JFrame{
 	private Card[] user_deck;
 	private Card[] ai_deck;
 	private Card[] deck;
-	private Card[] used_deck;
 	private CardButton[] user_card_buttons;
 	private CardButton[] ai_card_buttons;
 	private DeckButton deck_button;
@@ -29,7 +28,6 @@ public class MainGameFrame extends JFrame{
 		ai_deck = game.showAIDeck();
 		user_deck = game.showUserDeck();
 		deck = game.showDeck();
-		used_deck = game.showUsedDeck();
 		
 		ai = new AI(ai_deck, game.showAiDeckLen(), this, ai_card_buttons, game);
 		user = new User(name, user_deck, game.showUserDeckLen(), this, user_card_buttons, game);

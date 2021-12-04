@@ -1,0 +1,13 @@
+import javax.swing.JButton;
+import java.awt.event.*;
+
+public class ChangingButton extends JButton implements ActionListener{
+	
+	public ChangingButton(OneCard g, MainGameFrame gf, String s) {
+		
+	}
+	public void actionPerformed(ActionEvent e) {
+		// game.changeShape(shape);
+		// gameFrame.eraseChangingButton();
+	}
+}

@@ -38,8 +38,8 @@ public abstract class Player {
 	}
 	public int check(Card c) {
 		//�궪 �닔 �엳�뒗吏� �솗�씤 �릺硫� 二쇨퀬 1�쓣 由ы꽩 �븞�릺硫� 0�쓣 由ы꽩
-
-        if(game.isPossible())
+		//낼 수 있는지 확인 되면 주고 1을 리턴 안되면 0을 리턴
+        if(game.isPossible(c))
         	return 1;
         else
         	return 0;

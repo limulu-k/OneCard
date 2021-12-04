@@ -1,49 +1,94 @@
+import javax.swing.*;
 
-public class MainGameFrame {
+public class MainGameFrame extends JFrame{
+	private Card[] user_deck;
+	private Card[] ai_deck;
+	private Card[] deck;
+	private Card[] used_deck;
+	private CardButton[] user_card_buttons;
+	private CardButton[] ai_card_buttons;
+	private DeckButton deck_button;
+	private ChangingButton[] change_buttons;
+	private AI ai;
+	private User user;
+	private int turn;
+	
 	public MainGameFrame(String name) {
-		//Ã¢ »ı¼º(Ã¢ È°¼ºÈ­)
-        //OneCard ½ÇÇà
-		//aiÄ«µåµ¦, userÄ«µåµ¦, ¹Ù´Ú¿¡ ÀÖ´Â Ä«µåµ¦, ¹ö·ÁÁø Ä«µå µ¦ ¸®½ºÆ® Ãß°¡
-        //ÅÏ°ü·Ã int Çü º¯¼ö turn = 0:ai, 1:user
-        //start½ÇÇà
+		//ì°½ ìƒì„±(ì°½ í™œì„±í™”)
+        //OneCard ì‹¤í–‰
+		//aiì¹´ë“œë±, userì¹´ë“œë±, ë°”ë‹¥ì— ìˆëŠ” ì¹´ë“œë±, ë²„ë ¤ì§„ ì¹´ë“œ ë± ë¦¬ìŠ¤íŠ¸ ì¶”ê°€
+        //í„´ê´€ë ¨ int í˜• ë³€ìˆ˜ turn = 0:ai, 1:user
+        //startì‹¤í–‰
+		
+		setTitle("OneCard");
+		setSize(1800, 1000);
+		setVisible(true);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		OneCard game = new OneCard();
+		ai_deck = game.showAIDeck();
+		user_deck = game.showUserDeck();
+		deck = game.showDeck();
+		used_deck = game.showUsedDeck();
+		
+		ai = new AI(ai_deck, game.showAiDeckLen(), this, ai_card_buttons, game);
+		user = new User(name, user_deck, game.showUserDeckLen(), this, user_card_buttons, game);
+		
+		turn = 0;
+		
+		for(int i = 0; i < game.showAiDeckLen(); i++) 
+			ai_card_buttons[i] = new CardButton(ai_deck[i], ai,this);
+		for(int i = 0; i < game.showUserDeckLen(); i++)
+			user_card_buttons[i] = new CardButton(user_deck[i], user, this);
+		
+		deck_button = new DeckButton(game, this);
+		
+		change_buttons = new ChangingButton[4];
+		change_buttons[0] = new ChangingButton(game, this, "Spade");
+		change_buttons[1] = new ChangingButton(game, this, "Clover");
+		change_buttons[2] = new ChangingButton(game, this, "Heart");
+		change_buttons[3] = new ChangingButton(game, this, "Diamond"); 
 	}
 	public void start() {
-		//´ì ºĞ¹è¸¦ º¸¿©ÁØ´Ù
+		//ëŒ ë¶„ë°°ë¥¼ ë³´ì—¬ì¤€ë‹¤
 	}
 	public void showTurn() {
-		//´©±¸ÀÇ ÅÏÀÎÁö º¸¿©ÁØ´Ù<- ½Ã°£À» È°¿ëÇÏ¿© ¹öÆ°ÀÇ ¿òÁ÷ÀÓ »ı¼º
+		//ëˆ„êµ¬ì˜ í„´ì¸ì§€ ë³´ì—¬ì¤€ë‹¤<- ì‹œê°„ì„ í™œìš©í•˜ì—¬ ë²„íŠ¼ì˜ ì›€ì§ì„ ìƒì„±
 	}
     public void deckClicked() {
-		//ÅÏÀ» È®ÀÎ ÇØ´ç ÇÃ·¹ÀÌ¾î¿¡°Ô Ä«µå ¸ÆÀÌ±â
-    	//ÅÏ ³Ñ±â±â
+		//í„´ì„ í™•ì¸ í•´ë‹¹ í”Œë ˆì´ì–´ì—ê²Œ ì¹´ë“œ ë§¥ì´ê¸°
+    	//í„´ ë„˜ê¸°ê¸°
 	}
 	public void checkEnd() {
-		//°ÔÀÓÀÌ ³¡³µ´ÂÁö È®ÀÎ
+		//ê²Œì„ì´ ëë‚¬ëŠ”ì§€ í™•ì¸
 	}
 	public void update() {
-		//ÀüÃ¼ÀûÀÎ ÇÁ·¹ÀÓ ¾÷µ¥ÀÌÆ®
-		//°ÔÀÓÀÌ ³¡³µ´ÂÁö È®ÀÎ
-        //´ÙÀ½ÅÏÀÌ AIÅÏÀÎÁö È®ÀÎ
-        //AIÅÏÀÌ¸é ai.play()
-		//ÅÏº¯¼ö ÀçÁöÁ¤
-        //³¡³µ´ÂÁö È®ÀÎ => isEnd()
+		//ì „ì²´ì ì¸ í”„ë ˆì„ ì—…ë°ì´íŠ¸
+		//ê²Œì„ì´ ëë‚¬ëŠ”ì§€ í™•ì¸
+        //ë‹¤ìŒí„´ì´ AIí„´ì¸ì§€ í™•ì¸
+        //AIí„´ì´ë©´ ai.play()
+		//í„´ë³€ìˆ˜ ì¬ì§€ì •
+        //ëë‚¬ëŠ”ì§€ í™•ì¸ => isEnd()
             //gameEnd()
         //else{
-            //´©±¸ ÅÏÀÎÁö Ãâ·Â
+            //ëˆ„êµ¬ í„´ì¸ì§€ ì¶œë ¥
+		
+		
+		
 	}
 	public void cardGiving(int n, Card c) {
-		//Ä«µå Å¸ÀÓ ¸ğµâÀ» »ç¿ëÇÏ¿© ÀÌµ¿(µ¦¿¡¼­ ¹Ù´ÚÀ¸·Î)
+		//ì¹´ë“œ íƒ€ì„ ëª¨ë“ˆì„ ì‚¬ìš©í•˜ì—¬ ì´ë™(ë±ì—ì„œ ë°”ë‹¥ìœ¼ë¡œ)
 	}
 	public void showChangingButton() {
-		//¹Ù²Ù´Â ¹öÆ° È°¼ºÈ­ ¹× ´Ù¸¥ ¹öÆ° Å¬¸¯ ¸·±â    
+		//ë°”ê¾¸ëŠ” ë²„íŠ¼ í™œì„±í™” ë° ë‹¤ë¥¸ ë²„íŠ¼ í´ë¦­ ë§‰ê¸°    
 	}
 	public void eraseChangingButton() {
-		//¹Ù²Ù´Â ¹öÆ° ºñÈ°¼ºÈ­
+		//ë°”ê¾¸ëŠ” ë²„íŠ¼ ë¹„í™œì„±í™”
 	}
 	public void gameEnd() {
-		//ÀÌ±ä»ç¶÷È®ÀÎ, ¹öÆ° Å¬¸¯ ¸·°í, ÀÌ±ä»ç¶÷ Ãâ·Â(°ÔÀÓÁ¾·á ÀÎÅÍÆäÀÌ½º)
+		//ì´ê¸´ì‚¬ëŒí™•ì¸, ë²„íŠ¼ í´ë¦­ ë§‰ê³ , ì´ê¸´ì‚¬ëŒ ì¶œë ¥(ê²Œì„ì¢…ë£Œ ì¸í„°í˜ì´ìŠ¤)
 	}
 	public void sevenCalled() {
-		//changingButton È°¼ºÈ­
+		//changingButton í™œì„±í™”
 	}
 }

@@ -1,11 +1,13 @@
 import javax.swing.JButton;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
+@SuppressWarnings("serial")
 public class CardButton extends JButton implements ActionListener{
-	
-	Card card;
-	Player player;
-	MainGameFrame frame;
+	private Card card;
+	private Player player;
+	private MainGameFrame frame;
+	private BufferedImage img;
 	
 	public CardButton(Card c, Player p, MainGameFrame f) {
 		card = c;
@@ -14,12 +16,15 @@ public class CardButton extends JButton implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e) {
 		if(player.check(card) != 1) {
-			// »¡°²°Ô ½ÇÇà
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			card.loadImage();
-			try {Thread.sleep(3000);} //3ÃÊ ´ë±â 
+			try {Thread.sleep(3000);} //3ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 			catch (InterruptedException i) {i.printStackTrace();}
-			// ¿ø·¡´ë·Î
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			card.loadImage();
 		}
+	}
+	public BufferedImage getImg() {
+		return img;
 	}
 }

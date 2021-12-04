@@ -1,13 +1,40 @@
+import javax.swing.*;
 
-public class MainFrame {
+@SuppressWarnings("serial")
+public class MainFrame extends JFrame{
 	public MainFrame(){
-//		Ã¢»ı¼º(Ã¢ È°¼ºÈ­)
-//        ¹öÆ° 2°³»ı¼º(°ÔÀÓ ¼³¸í, °ÔÀÓ ½ÃÀÛ)
-//            => °ÔÀÓ ½ÃÀÛ Å¬¸¯½Ã
-//                ÀÎÇ²´ÙÀÌ¿Ã·Î±×·Î ÀÌ¸§ ¹Ş¾Æ¿À±â
-//                ÇöÀç Ã¢ ºñÈ°¼ºÈ­
-//                new MainGameFrame(ÇÃ·¹ÀÌ¾î ÀÌ¸§)
+//		ì°½ìƒì„±(ì°½ í™œì„±í™”)
+//        ë²„íŠ¼ 2ê°œìƒì„±(ê²Œì„ ì„¤ëª…, ê²Œì„ ì‹œì‘)
+//            => ê²Œì„ ì‹œì‘ í´ë¦­ì‹œ
+//                ì¸í’‹ë‹¤ì´ì˜¬ë¡œê·¸ë¡œ ì´ë¦„ ë°›ì•„ì˜¤ê¸°
+//                í˜„ì¬ ì°½ ë¹„í™œì„±í™”
+//                new MainGameFrame(í”Œë ˆì´ì–´ ì´ë¦„)
+
+//		Container mainC = getContentPane();
+//		mainC.setLayout(new BorderLayout());
+		
+		setTitle("OneCard");
+		setSize(1800, 1000);
+		setVisible(true);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		JButton tuto = new JButton("íŠœí† ë¦¬ì–¼");
+		JButton main = new JButton("ê²Œì„ ì‹œì‘");
+		
+		tuto.addActionListener(event -> {
+			JOptionPane.showMessageDialog(null, "ë¯¸êµ¬í˜„ ê¸°ëŠ¥ì…ë‹ˆë‹¤");
+        });
+		main.addActionListener(event -> {
+			String name = JOptionPane.showInputDialog("ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”");
+			setVisible(false);
+			new MainGameFrame(name);
+		});
+		
+		tuto.setBounds(900,450,100,30);
+		main.setBounds(900,500,100,30);
+		
+		getContentPane().add(tuto);
+		getContentPane().add(main);
+		
 	}
-	
-	
 }

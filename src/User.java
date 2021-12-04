@@ -1,8 +1,15 @@
 
 public class User extends Player{
+	private String name;
+	private Card[] cards;
+	private int len;
+	
 	public User(String n, Card[] cs, int l , MainGameFrame f, CardButton[] bts, OneCard g) {
-		this.name = n;
-		this.cards = cs;
-		this.len = l;
+		name = n;
+		cards = cs;
+		len = l;
+	}
+	public String getUserName() {
+		return name;
 	}
 }

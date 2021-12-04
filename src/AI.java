@@ -5,10 +5,9 @@ public class AI extends Player {
 	
 	public AI(Card[] cs, int l, MainGameFrame f, CardButton[] bts, OneCard g) {
 		super(cs, l, f, bts, g);
-		play();
 	}
 	public void play() {
-		//ÇöÀç »óÈ²¿¡ ¸ÂÃç Ä«µå ³»±â
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		int len = showCardsLen();
 		int[] possible = new int[len];
 		int n= 0;

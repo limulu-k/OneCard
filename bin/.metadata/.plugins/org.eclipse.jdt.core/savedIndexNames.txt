@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\cowpe\Desktop\ÆÀÇÃ\OneCard\src\.metadata\.plugins\org.eclipse.jdt.core
+564544150.index
+1865797976.index
+459698311.index

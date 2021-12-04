@@ -1,0 +1,12 @@
+
+public class DeckButton {
+	private OneCard card;
+	private MainGameFrame gameframe;
+	public DeckButton(OneCard g, MainGameFrame gf) {
+		card = g;
+		gameframe = gf;
+	}
+	public void actionPerformed(ActionEvent e) {
+		// gameFrame.deckClicked();s
+	}
+}

@@ -1,0 +1,21 @@
+import javax.swing.JButton;
+import java.awt.event.*;
+
+public class CardButton extends JButton implements ActionListener{
+	
+	Card card;
+	Player player;
+	MainGameFrame frame;
+	
+	public CardButton(Card c, Player p, MainGameFrame f) {
+		card = c;
+		player = p;
+		frame = f;
+	}
+	public void actionPerformed(ActionEvent e) {
+		if(player.check(card) != 1) {
+			////안되면 몇초간 빨갛게 만들기
+			
+		}	
+	}
+}

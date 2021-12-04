@@ -1,18 +1,63 @@
 
-public class Card {
+import java.awt.*;
+import java.awt.image.*;
+import java.io.*;
+import javax.swing.*;
+import javax.imageio.*;
+
+
+public class Card extends JFrame{
+	
+	private static String shape;
+	private static int number;
+	private ImageIcon img;
+	
 	public Card(int n, String s) {
-		// ¾î¶² Ä«µåÀÎÁö ÀúÀå
+		shape=s;
+		number=n;
+		loadImage();    	
+    	JButton b = new JButton(img);
+    	b.setBounds(100,100,0,0);
+    	add(b);
+    	setSize(400,400);
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	setVisible(true);
 	}
-	public void loadImage() {
-		//ÀÌ¹ÌÁö¿Í ¼ıÀÚ¿¡ ¸Â´Â ÀÌ¹ÌÁö ÀúÀå
+	
+//	public void paint(java.awt.Graphics g) {
+//		//ì´í´ë¦½ìŠ¤ì˜ src í´ë”ì— ì´ë¯¸ì§€ë¥¼ ë„£ìœ¼ë©´ ìë™ìœ¼ë¡œ biní´ë”ì— ì´ë¯¸ì§€ íŒŒì¼ì´ ë³µì‚¬ë¨. ê·¸ëŸ¬ë¯€ë¡œ getResource ë¡œ ê°€ì ¸ì˜¬ ìˆ˜ ìˆìŒ
+//
+//		img = Toolkit.getDefaultToolkit().getImage(ImageTest.class.getResource("").getPath()+"testpic.jpg");
+//
+////img = Toolkit.getDefaultToolkit().getImage("C:/sou/002_javabasic02/java_basic_02/bin/pack00_TemporaryPackage/testpic.jpg"); 
+//
+//		g.drawImage(img, 50, 80, 200, 200, this);
+//	}
+	public void loadImage(){
+		//[shpae]-[number]
+		String src = "..\\" + shape + "-" + number;
+		img = new ImageIcon(src);
+		//ì´ë¯¸ì§€ì™€ ìˆ«ìì— ë§ëŠ” ì´ë¯¸ì§€ ì €ì¥
+		
 	}
+		
+		
 	public int getCardNum() {
-     //Ä«µå ¼ıÀÚ
+		return number;
+     //ì¹´ë“œ ìˆ«ì
 	}
     public String getCardShape() {
-    	//Ä«µå ¸ğ¾ç
+    	return shape;
+    	//ì¹´ë“œ ëª¨ì–‘
     }
-    public void getImage() {
-    	//ÀÌ¹ÌÁö ¸®ÅÏ   
+    public ImageIcon getImage() {
+    	return img;
+    	//ì´ë¯¸ì§€ ë¦¬í„´   
     }
+    
+    public static void main(String[] args) throws IOException{
+    	Card c = new Card(2,"spade");
+
+
+	}
 }

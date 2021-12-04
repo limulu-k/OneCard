@@ -4,6 +4,8 @@ public class MainGameFrame extends JFrame{
 	private Card[] user_deck;
 	private Card[] ai_deck;
 	private Card[] deck;
+	private Card past;
+	private CardButton past_button;
 	private CardButton[] user_card_buttons;
 	private CardButton[] ai_card_buttons;
 	private DeckButton deck_button;
@@ -11,7 +13,9 @@ public class MainGameFrame extends JFrame{
 	private AI ai;
 	private User user;
 	private int turn;
+	private int[] cardSize = {152,216};
 	
+	@SuppressWarnings("deprecation")
 	public MainGameFrame(String name) {
 		//창 생성(창 활성화)
         //OneCard 실행
@@ -23,19 +27,26 @@ public class MainGameFrame extends JFrame{
 		setSize(1800, 1000);
 		setVisible(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setResizable(false);
 		
 		OneCard game = new OneCard();
+		
 		ai_deck = game.showAIDeck();
 		user_deck = game.showUserDeck();
 		deck = game.showDeck();
-		
+		past = game.showPast();
+		past_button = new CardButton(past, null, this);
+		past_button.enable(false);
 		ai = new AI(ai_deck, game.showAiDeckLen(), this, ai_card_buttons, game);
 		user = new User(name, user_deck, game.showUserDeckLen(), this, user_card_buttons, game);
 		
 		turn = 0;
 		
+		ai_card_buttons = new CardButton[50];
+		user_card_buttons = new CardButton[50];
+		
 		for(int i = 0; i < game.showAiDeckLen(); i++) 
-			ai_card_buttons[i] = new CardButton(ai_deck[i], ai,this);
+			ai_card_buttons[i] = new CardButton(ai_deck[i], ai, this);
 		for(int i = 0; i < game.showUserDeckLen(); i++)
 			user_card_buttons[i] = new CardButton(user_deck[i], user, this);
 		
@@ -48,9 +59,14 @@ public class MainGameFrame extends JFrame{
 		change_buttons[3] = new ChangingButton(game, this, "Diamond");
 		
 		start();
+		isEnd();
 	}
 	public void start() {
 		//댁 분배를 보여준다
+		deck_button.setBounds(900-cardSize[0]-cardSize[0]/3, 500-cardSize[1]/2, cardSize[0], cardSize[1]);
+		add(deck_button);
+		past_button.setBounds(900+cardSize[0]/3, 500-cardSize[1]/2, cardSize[0], cardSize[1]);
+		add(past_button);
 	}
 	public void showTurn() {
 		//누구의 턴인지 보여준다<- 시간을 활용하여 버튼의 움직임 생성
@@ -90,5 +106,11 @@ public class MainGameFrame extends JFrame{
 	}
 	public void sevenCalled() {
 		//changingButton 활성화
+	}
+	public boolean isEnd() {
+		return false;
+	}
+	public static void main(String[] args) {
+		new MainGameFrame("test");
 	}
 }

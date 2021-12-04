@@ -13,7 +13,7 @@ public class OneCard {
 	private int need;
 	
 	public OneCard() {
-		Card[] deck = new Card[54];
+		deck = new Card[54];
 		past = null;
 		String sh = null;
 		for(int i = 1; i <= 52; i++) {
@@ -53,6 +53,8 @@ public class OneCard {
 			deck[i] = null;
 		}
 		deck_len -= 22;
+		past = deck[deck_len-1];
+		deck_len -= 1;
 	}
 	
 	public Card[] showUserDeck() {
@@ -61,6 +63,10 @@ public class OneCard {
 	
 	public Card[] showAIDeck() {
 		return ai_deck;
+	}
+	
+	public Card showPast() {
+		return past;
 	}
 	
 	public boolean isPossible(Card present_c) {
@@ -191,13 +197,13 @@ public class OneCard {
 	public int showDeckLen() {
 		return deck_len;
 	}
-	public static void main(String[] args) {
-		OneCard game = new OneCard();
-		Card[] c = game.showAIDeck();
-		System.out.println(game.ai_deck_len);
-		for(int i = 0; i < game.ai_deck_len; i++)
-			System.out.println(c[i].getCardShape()+" : "+c[i].getCardNum());
-	}
+//	public static void main(String[] args) {
+//		OneCard game = new OneCard();
+//		Card[] c = game.showAIDeck();
+//		System.out.println(game.ai_deck_len);
+//		for(int i = 0; i < game.ai_deck_len; i++)
+//			System.out.println(c[i].getCardShape()+" : "+c[i].getCardNum());
+//	}
 }
 
 

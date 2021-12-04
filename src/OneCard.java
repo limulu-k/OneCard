@@ -1,49 +1,137 @@
+import java.util.*;
 
 public class OneCard {
 	private Card[] user_deck;
 	private Card[] ai_deck;
 	private Card[] deck;
-	private Card[] used_deck;
+	private Card past;
+	private String now_shape;
 	private int user_deck_len;
 	private int ai_deck_len;
 	private int deck_len;
-	private int used_deck_len;
 	private int turn;
 	private int need;
 	
 	public OneCard() {
 		Card[] deck = new Card[54];
-		//deck 섞고
-        //used_card_deck 생성
-        //user_deck 에 11장 분배
-        //ai_deck 에 11장 분배
+		past = null;
+		String sh = null;
+		for(int i = 1; i <= 52; i++) {
+			int n = i%13;
+			if(n == 0) n = 13;
+			if((int)((i-1)/13) == 0) sh = "spade";
+			else if((int)((i-1)/13) == 1) sh = "clover";
+			else if((int)((i-1)/13) == 2) sh = "heart";
+			else if((int)((i-1)/13) == 3) sh = "diamond";
+			deck[i-1] = new Card(n, sh);
+		}
+		deck[52] = new Card(14, "color");
+		deck[53] = new Card(14, "black");
+		List<Card> list = Arrays.asList(deck);
+		Collections.shuffle(list);
+		list.toArray(deck);
+		deck_len = 54;
+
+		user_deck = new Card[54];
+		ai_deck = new Card[54];
+		
+		user_deck_len = 11;
+		ai_deck_len = 11;
+		
+		for(int i = 0; i < 11; i++) {
+			user_deck[i] = deck[i];
+		}
+		for(int i = 11; i < 54; i++) {
+			deck[i-11] = deck[i];
+			deck[i] = null;
+		}
+		for(int i = 0; i < 11; i++) {
+			ai_deck[i] = deck[i];
+		}
+		for(int i = 11; i < 43; i++) {
+			deck[i-11] = deck[i];
+			deck[i] = null;
+		}
+		deck_len -= 22;
 	}
+	
 	public Card[] showUserDeck() {
 		return user_deck;
 	}
+	
 	public Card[] showAIDeck() {
 		return ai_deck;
 	}
 	
-	public boolean isPossible(Card past_c, Card present_c) {
+	public boolean isPossible(Card present_c) {
 		// 가능하면 true, used_card_deck에 추가 + 턴을 넘길 수 있는지 판단 + 다음 플레이어가 먹을 카드 수 판단
-		int n = past_c.getCardNum();
-		if(past_c.getCardNum() < 11 && past_c.getCardNum() > 2) {
-			
-		}else if(n == 11 || n == 13){
+		int past_n = past.getCardNum();
+		int now_n = present_c.getCardNum();
+		String past_s = past.getCardShape();
+		String now_s = present_c.getCardShape();
+		if(past_n <= 13 && past_n > 2) {
+			if(past_n ==now_n || past_s.equals(now_s) || now_n == 14) {
+				if(now_n != 11 && now_n != 13)
+					changeTurn();
+				need += howManyNeed(now_n, now_s);
+				past = present_c;
+				return true;
+			}else {
+				return false;
+			}
 		}else{
-		
-			if(n == 1) {
-				
-			}else if(n == 2) {
-				
-			}else if(n == 14) {
-				
+			if(past_n == 1) {
+				if(now_n == 1 || now_n == 14) {
+					need += howManyNeed(now_n, now_s);
+					past = present_c;
+					changeTurn();
+					return true;
+				}else {
+					return false;
+				}
+			}else if(past_n == 2) {
+				if(now_n == 2 || now_n == 1 || now_n == 14) {
+					need += howManyNeed(now_n, now_s);
+					past = present_c;
+					changeTurn();
+					return true;
+				}else {
+					return false;
+				}
+			}else if(past_n == 14) {
+				if(now_n == 14) {
+					need += howManyNeed(now_n, now_s);
+					changeTurn();
+					return true;
+				}else {
+					return false;
+				}
+			}else {
+				return false;
 			}
 		}
-        // 불가능하면 false
-		
-		return false;
+	}
+	
+	@SuppressWarnings("unused")
+	private int howManyNeed(int n, String s) {
+		if(n == 1) {
+			if(s.equals("spade")) {
+				return 5;
+			}else {
+				return 3;
+			}
+		}else if(n == 14) {
+			if(s.equals("color")) {
+				return 10;
+			}else {
+				return 7;
+			}
+		}else if(n == 2) {
+			return 2;
+		}else {
+			System.out.println("ERROR howManyNeed : "+n+", "+s);
+			return 0;
+		}
 	}
 	
 	public int showTurn() {
@@ -51,8 +139,14 @@ public class OneCard {
 		return turn;
 	}
 	
-	public void changeTurn(int n) {
-		turn = n;
+	public void changeTurn() {
+		if (turn == 0) {
+			turn = 1;
+			return;
+		}else {
+			turn = 0;
+			return;
+		}
 	}
 	
 	public Card[] giveCards() {
@@ -73,26 +167,9 @@ public class OneCard {
 		return tmp;
 	}
 	
-	public void getCards(Card[] cs, int n) {
-		if(n == 1) {
-			
-		}else {
-			
-		}
-	}
-	
 	public void changeShape(String s) {
 		//카드 모양 바꾸기
-	}
-	public void addUsedCard(Card c) {
-		
-	}
-	
-	public Card[] showUsedDeck() {
-		Card[] tmp = new Card[used_deck_len];
-		for(int i = 0; i < used_deck_len; i++)
-			tmp[i] = used_deck[i];
-		return tmp;
+		now_shape = s;
 	}
 	
 	public Card[] showDeck() {
@@ -114,9 +191,12 @@ public class OneCard {
 	public int showDeckLen() {
 		return deck_len;
 	}
-	
-	public int showUsedDeckLen() {
-		return used_deck_len;
+	public static void main(String[] args) {
+		OneCard game = new OneCard();
+		Card[] c = game.showAIDeck();
+		System.out.println(game.ai_deck_len);
+		for(int i = 0; i < game.ai_deck_len; i++)
+			System.out.println(c[i].getCardShape()+" : "+c[i].getCardNum());
 	}
 }
 

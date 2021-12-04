@@ -1,3 +1,4 @@
+/.metadata/
 /AI.class
 /Card.class
 /CardButton.class
@@ -10,4 +11,3 @@
 /Starter.class
 /TutorialFrame.class
 /User.class
-/.metadata/

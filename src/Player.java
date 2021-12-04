@@ -4,7 +4,7 @@ public abstract class Player {
 	private int len;
 	private MainGameFrame gameFrame;
 	private CardButton[] cardButtons;
-	private OneCard game;
+	OneCard game;
 	
 	public Player(Card[] cs, int l, MainGameFrame gf, CardButton[] bts, OneCard g) {
 		cards = cs;
@@ -37,7 +37,8 @@ public abstract class Player {
 		return len;
 	}
 	public int check(Card c) {
-		//낼 수 있는지 확인 되면 주고 1을 리턴 안되면 0을 리턴
+		//�궪 �닔 �엳�뒗吏� �솗�씤 �릺硫� 二쇨퀬 1�쓣 由ы꽩 �븞�릺硫� 0�쓣 由ы꽩
+
         if(game.isPossible())
         	return 1;
         else

@@ -1,15 +1,14 @@
 
 public class User extends Player{
 	private String name;
-	private Card[] cards;
 	private int len;
 	
 	public User(String n, Card[] cs, int l , MainGameFrame f, CardButton[] bts, OneCard g) {
+		super(cs, l, f, bts, g);
 		name = n;
-		cards = cs;
 		len = l;
 	}
-	public String getUserName() {
+	public String showUserName() {
 		return name;
 	}
 }

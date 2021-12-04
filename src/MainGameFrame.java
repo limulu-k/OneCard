@@ -47,7 +47,9 @@ public class MainGameFrame extends JFrame{
 		change_buttons[0] = new ChangingButton(game, this, "Spade");
 		change_buttons[1] = new ChangingButton(game, this, "Clover");
 		change_buttons[2] = new ChangingButton(game, this, "Heart");
-		change_buttons[3] = new ChangingButton(game, this, "Diamond"); 
+		change_buttons[3] = new ChangingButton(game, this, "Diamond");
+		
+		start();
 	}
 	public void start() {
 		//댁 분배를 보여준다

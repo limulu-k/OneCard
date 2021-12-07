@@ -1,18 +1,25 @@
 import java.util.*;
 
 public class OneCard {
+	private MainGameFrame gameFrame;
 	private Card[] user_deck;
 	private Card[] ai_deck;
 	private Card[] deck;
 	private Card past;
+	
 	private String now_shape;
+	
 	private int user_deck_len;
 	private int ai_deck_len;
 	private int deck_len;
 	private int turn;
+	private int turnAccumulated;
 	private int need;
+	private int kChecking = -1;
 	
-	public OneCard() {
+	
+	public OneCard(MainGameFrame mgf) {
+		gameFrame = mgf;
 		deck = new Card[54];
 		past = null;
 		String sh = null;
@@ -55,6 +62,9 @@ public class OneCard {
 		deck_len -= 22;
 		past = deck[deck_len-1];
 		deck_len -= 1;
+		
+		turn = 1;
+		turnAccumulated = 1;
 	}
 	
 	public Card[] showUserDeck() {
@@ -75,8 +85,23 @@ public class OneCard {
 		int now_n = present_c.getCardNum();
 		String past_s = past.getCardShape();
 		String now_s = present_c.getCardShape();
+		
+//		kChecking에 k를 넣은 사용자 번호 + 턴수 넣기 => kChecking = turn + 10*turnAccumulated
+//		경우
+//		1. user -> user
+//		2. ai -> ai
+//		3. 시작 -> user
+//		4. user -> ai 와 그 역
+//		5. user -> .... -> user	와 그 역 => 해당경우 발생 가능성 0이 아님
+		
 		if(past_n <= 13 && past_n > 2) {
 			if(past_n ==now_n || past_s.equals(now_s) || now_n == 14) {
+				if(past_n == 13) {
+					
+				}
+				if(now_n == 13) {
+					
+				}
 				if(now_n != 11 && now_n != 13)
 					changeTurn();
 				need += howManyNeed(now_n, now_s);
@@ -141,16 +166,19 @@ public class OneCard {
 	}
 	
 	public int showTurn() {
-        // 누구의 턴인지 리턴(플레이어 = 0, 에이아이는 1)
+        // 누구의 턴인지 리턴(플레이어 = 1, 에이아이는 0)
 		return turn;
 	}
 	
 	public void changeTurn() {
+		turnAccumulated += 1;
 		if (turn == 0) {
 			turn = 1;
+			gameFrame.changeTurnStatus("현재 턴 : user");
 			return;
 		}else {
 			turn = 0;
+			gameFrame.changeTurnStatus("현재 턴 : ai");
 			return;
 		}
 	}

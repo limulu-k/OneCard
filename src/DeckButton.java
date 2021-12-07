@@ -12,6 +12,7 @@ public class DeckButton extends JButton implements ActionListener{
 		game = g;
 		gameFrame = gf;
 		loadImage();
+		addActionListener(this);
 		super.setIcon(img);
 		super.setSize(152, 216);
 	}

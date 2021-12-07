@@ -20,7 +20,6 @@ public class DeckButton extends JButton implements ActionListener{
 		gameFrame.deckClicked();
 	}
 	public void loadImage(){
-		String src = "./img/back.png";
-		img = new ImageIcon(src);
+		img = new ImageIcon("./img/back.png");
 	}
 }

@@ -1,34 +1,37 @@
 import java.util.*;
 
-
 public class AI extends Player {
 	
 	public AI(Card[] cs, int l, MainGameFrame f, CardButton[] bts, OneCard g) {
 		super(cs, l, f, bts, g);
 	}
 	public void play() {
-		//���� ��Ȳ�� ���� ī�� ����
-		int len = showCardsLen();
-		int[] possible = new int[len];
-		int n= 0;
-		for(int i = 0 ; i < len ; i++) {
-			if(check(showCard(i))==1) {
-				possible[n] = i;
-				n += 1;
+		System.out.println("play called");
+		int[] checksum = new int[showCardsLen()];
+		for(int i = 0; i < showCardsLen(); i++)
+			checksum[i] = 0;
+		Random random = new Random();
+		int n,cnt;
+		System.out.println("while start");
+		while(true) {
+			n = random.nextInt(showCardsLen());
+			if (checksum[n] == 0) {
+				System.out.println("check called");
+				if(check(showCard(n)) == 1) {
+					System.out.println("check right");
+					eraseCard(showCard(n));
+					gameFrame.update();
+					break;
+				}
+				checksum[n] = 1;
 			}
-		}
-		if(n==0) {
-			Random random = new Random();
-			int rand = possible[random.nextInt(n)];
-			giveCard(rand);
-		}
-		else {
-			Card[] cs = game.giveCards();
-			int cslen = cs.length;
-			for(int i = 0 ; i < cslen ; i++) {
-				getCard(cs[i]);
+			cnt = 0;
+			for(int i = 0; i < showCardsLen(); i++) {
+				if(checksum[i] == 1)
+					cnt += 1;
 			}
-			
+			if(cnt == showCardsLen())
+				break;
 		}
 		
 	}

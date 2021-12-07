@@ -14,8 +14,7 @@ public class Card{
 	}
 	
 	public void loadImage(){
-		String src = "./img/" + shape + "-" + number+".png";
-		img = new ImageIcon(src);
+		img = new ImageIcon("./img/" + shape + "-" + number+".png");
 	}
 	public int getCardNum() {
 		return number;

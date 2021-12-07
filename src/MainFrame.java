@@ -22,7 +22,8 @@ public class MainFrame extends JFrame{
 		JButton main = new JButton("게임 시작");
 		
 		tuto.addActionListener(event -> {
-			JOptionPane.showMessageDialog(null, "미구현 기능입니다");
+			setVisible(false);
+			new TutorialFrame();
         });
 		main.addActionListener(event -> {
 			String name = JOptionPane.showInputDialog("이름을 입력하세요");

@@ -2,7 +2,7 @@
 public abstract class Player {
 	private Card[] cards;
 	private int len;
-	private MainGameFrame gameFrame;
+	MainGameFrame gameFrame;
 	private CardButton[] cardButtons;
 	OneCard game;
 	
@@ -39,9 +39,13 @@ public abstract class Player {
 	public int check(Card c) {
 		//�궪 �닔 �엳�뒗吏� �솗�씤 �릺硫� 二쇨퀬 1�쓣 由ы꽩 �븞�릺硫� 0�쓣 由ы꽩
 		//낼 수 있는지 확인 되면 주고 1을 리턴 안되면 0을 리턴
-        if(game.isPossible(c))
+        if(game.isPossible(c, this))
         	return 1;
         else
         	return 0;
+	}
+
+	public void eraseCard(Card c) {
+		game.erase(c, this);
 	}
 }

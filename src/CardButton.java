@@ -5,7 +5,7 @@ import java.awt.event.*;
 public class CardButton extends JButton implements ActionListener{
 	private Card card;
 	private Player player;
-	private MainGameFrame frame;
+	private MainGameFrame gameframe;
 	private ImageIcon main_img;
 	private ImageIcon back_img;
 	private ImageIcon front_img;
@@ -13,7 +13,7 @@ public class CardButton extends JButton implements ActionListener{
 	public CardButton(Card c, Player p, MainGameFrame f) {
 		card = c;
 		player = p;
-		frame = f;
+		gameframe = f;
 		main_img = card.getImage();
 		front_img = main_img;
 		back_img = new ImageIcon("./img/back.png");
@@ -21,10 +21,17 @@ public class CardButton extends JButton implements ActionListener{
 		super.setSize(152, 216);
 		addActionListener(this);
 	}
+	
+	public ImageIcon showImg() {
+		return main_img;
+	}
+	
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("card clicked : "+card.getCardNum());
 		if(player != null) {
-			if(player.check(card) != 1) {
-				// 깜빡~ㄴ
+			if(player.check(card) == 1) {
+				player.eraseCard(card);
+				gameframe.update();
 			}
 		}
 	}

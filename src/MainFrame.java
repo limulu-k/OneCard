@@ -2,6 +2,7 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame{
+	
 	public MainFrame(){
 //		창생성(창 활성화)
 //        버튼 2개생성(게임 설명, 게임 시작)
@@ -18,8 +19,17 @@ public class MainFrame extends JFrame{
 		setVisible(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
+		JLabel imgLabel=new JLabel();
+		ImageIcon img=new ImageIcon("./img/start.png");
+		imgLabel.setIcon(img);
+		//imgLabel.setHorizontalAlignment(JLabel.CENTER);
+		getContentPane().add(imgLabel);
+		
+		
+		
 		JButton tuto = new JButton("튜토리얼");
 		JButton main = new JButton("게임 시작");
+		
 		
 		tuto.addActionListener(event -> {
 			setVisible(false);
@@ -31,6 +41,7 @@ public class MainFrame extends JFrame{
 			new MainGameFrame(name);
 		});
 		
+		imgLabel.setBounds(0,0,1800,1000);
 		tuto.setBounds(900,450,100,30);
 		main.setBounds(900,500,100,30);
 		
@@ -38,4 +49,6 @@ public class MainFrame extends JFrame{
 		getContentPane().add(main);
 		
 	}
+	
+	
 }

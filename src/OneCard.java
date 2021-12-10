@@ -13,7 +13,7 @@ public class OneCard {
 	private int ai_deck_len;
 	private int deck_len;
 	private int turn;
-	private int need;
+	private int need=1;
 	private boolean sevenCalled = false;
 	
 	public OneCard(MainGameFrame mgf) {
@@ -82,8 +82,9 @@ public class OneCard {
 		int now_n = present_c.getCardNum();
 		String past_s = past.getCardShape();
 		String now_s = present_c.getCardShape();
-		
+		System.out.println("turn : "+turn+"\nispossible\npast : "+past_s+":"+past_n+"\nnow : "+now_s+":"+now_n);
 		if((p instanceof User && turn == 1) || (p instanceof AI && turn == 0)) {
+			System.out.println("finding...");
 			if(sevenCalled) {
 				if(past_n == now_n || now_s.equals(now_shape) || now_n == 14) {
 					need += howManyNeed(now_n, now_s);
@@ -102,9 +103,10 @@ public class OneCard {
 					if(past_n == now_n || past_s.equals(now_s) || now_n == 14) {
 						if(now_n != 11 && now_n != 13)
 							changeTurn();
+						System.out.println("ispossible-normal "+now_s + ":"+now_n);
 						need += howManyNeed(now_n, now_s);
 						past = present_c;
-						if(now_n == 7) {
+						if(now_n == 7 && turn == 0) {
 							gameFrame.sevenCalled();
 							sevenCalled = true;
 						}
@@ -181,11 +183,9 @@ public class OneCard {
 		if (turn == 0) {
 			turn = 1;
 			gameFrame.changeTurnStatus("현재 턴 : user");
-			return;
 		}else {
 			turn = 0;
 			gameFrame.changeTurnStatus("현재 턴 : ai");
-			return;
 		}
 	}
 	
@@ -203,21 +203,23 @@ public class OneCard {
 			deck[i] = deck[i+need];
 		}
 		
-		need = 0;
+		need = 1;
 		return tmp;
 	}
 	
 	public void getCards(Card[] cs) {
-		if(turn == 0) {
+		if(turn == 1) {
 			for(int i = user_deck_len; i < user_deck_len+cs.length; i++) {
 				user_deck[i] = cs[i-user_deck_len];
 			}
 			user_deck_len += cs.length;
+			System.out.println("user_deck_len: "+user_deck_len);
 		}else {
 			for(int i = ai_deck_len; i < ai_deck_len+cs.length; i++) {
 				ai_deck[i] = cs[i-ai_deck_len];
 			}
 			ai_deck_len += cs.length;
+			System.out.println("ai_deck_len"+ai_deck_len);
 		}
 	}
 	
@@ -228,11 +230,15 @@ public class OneCard {
 	}
 	
 	public Card[] showDeck() {
-		Card[] tmp = new Card[deck_len];
-		for(int i = 0; i < deck_len; i++) {
-			tmp[i] = deck[i];
+		if(deck_len > 0) {
+			Card[] tmp = new Card[deck_len];
+			for(int i = 0; i < deck_len; i++) {
+				tmp[i] = deck[i];
+			}
+			return tmp;
+		}else {
+			return null;
 		}
-		return tmp;
 	}
 	
 	public int showUserDeckLen() {
@@ -248,7 +254,7 @@ public class OneCard {
 	}
 	
 	public void erase(Card c, Player p) {
-		if(p instanceof Player) {
+		if(p instanceof User) {
 			for(int i = 0; i < user_deck_len; i ++) {
 				if(user_deck[i] == c) {
 					user_deck[i] = null;
@@ -273,7 +279,9 @@ public class OneCard {
 			}
 		}
 	}
-	
+	public int showNeed() {
+		return need;
+	}
 //	public static void main(String[] args) {
 //		OneCard game = new OneCard();
 //		Card[] c = game.showAIDeck();

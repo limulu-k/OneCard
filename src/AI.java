@@ -18,9 +18,12 @@ public class AI extends Player {
 			if (checksum[n] == 0) {
 				System.out.println("check called");
 				if(check(showCard(n)) == 1) {
-					System.out.println("check right");
+					System.out.println("AI : check right "+showCard(n).getCardShape()+":"+showCard(n).getCardNum());
+					int tmp = showCard(n).getCardNum();
 					eraseCard(showCard(n));
 					gameFrame.update();
+					if(tmp == 13)
+						System.out.println("13 is payed");
 					break;
 				}
 				checksum[n] = 1;
@@ -30,9 +33,11 @@ public class AI extends Player {
 				if(checksum[i] == 1)
 					cnt += 1;
 			}
-			if(cnt == showCardsLen())
+			if(cnt == showCardsLen()) {
+				gameFrame.deckClicked();
+				game.changeTurn();
 				break;
+			}
 		}
-		
 	}
 }

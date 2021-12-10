@@ -32,6 +32,7 @@ public class CardButton extends JButton implements ActionListener{
 			if(player.check(card) == 1) {
 				player.eraseCard(card);
 				gameframe.update();
+				gameframe.callAi();
 			}
 		}
 	}

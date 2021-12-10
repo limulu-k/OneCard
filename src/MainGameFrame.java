@@ -135,9 +135,17 @@ public class MainGameFrame extends JFrame{
     public void deckClicked() {
 		//턴을 확인 해당 플레이어에게 카드 맥이기
     	//턴 넘기기
-    	game.getCards(game.giveCards());
-    	game.changeTurn();
-    	update();
+    	System.out.println("deckClicked");
+    	if(deck.length > 0 || deck.length - game.showNeed() >= 0) {
+        	game.getCards(game.giveCards());
+        	game.changeTurn();
+//        	game.updatePast();
+        	update();
+        	if(game.showTurn() == 0)
+        		callAi();
+    	}else {
+    		deckIsZero();
+    	}
 	}
     
 	public boolean checkEnd() {
@@ -154,10 +162,6 @@ public class MainGameFrame extends JFrame{
 		if(checkEnd()) {
 			gameEnd();
 		}
-        //다음턴이 AI턴인지 확인
-		if(game.showTurn() == 0) {
-			ai.play();
-		}
         //AI턴이면 ai.play()
 		//턴변수 재지정
         //끝났는지 확인 => isEnd()
@@ -171,6 +175,10 @@ public class MainGameFrame extends JFrame{
 		repaint();
 	}
 	
+	public void callAi() {
+		ai.play();
+	}
+	
 	public void showChangingButton() {
 		//바꾸는 버튼 활성화 및 다른 버튼 클릭 막기
 		turnOnOff(false);
@@ -181,6 +189,7 @@ public class MainGameFrame extends JFrame{
 			change_buttons[i].setBounds(tmp+i*(cardSize[0]*5/6),windowSize[1]/2-cardSize[1]/2,cardSize[0],cardSize[1]);
 			add(change_buttons[i]);
 		}
+		update();
 	}
 	
 	public void eraseChangingButton() {
@@ -296,6 +305,12 @@ public class MainGameFrame extends JFrame{
 		}
 		deck_button.setEnabled(t);
 		past_button.setEnabled(t);
+	}
+	
+	public void deckIsZero() {
+		System.out.println("deck.lengh = "+deck.length);
+		deck_button.setEnabled(false);
+		update();
 	}
 	
 	public static void main(String[] args) {

@@ -31,9 +31,17 @@ public abstract class Player {
 		return cards;
 	}
 	public Card showCard(int n) {
+		if(this instanceof AI)
+			cards = game.showAIDeck();
+		else
+			cards = game.showUserDeck();
 		return cards[n];
 	}
 	public int showCardsLen() {
+		if(this instanceof AI)
+			len = game.showAiDeckLen();
+		else
+			len = game.showUserDeckLen();
 		return len;
 	}
 	public int check(Card c) {

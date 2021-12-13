@@ -29,10 +29,11 @@ public class CardButton extends JButton implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("card clicked : "+card.getCardNum());
 		if(player != null) {
-			if(player.check(card) == 1) {
-				player.eraseCard(card);
-				gameframe.update();
-				gameframe.callAi();
+			if(player instanceof User) {
+//				player.eraseCard(card);
+//				gameframe.update();
+//				gameframe.callAi();
+				gameframe.userClicked(card);
 			}
 		}
 	}

@@ -62,94 +62,144 @@ public class OneCard {
 		deck_len -= 1;
 		
 		turn = 1;
+		
+		if(past.getCardNum() == 14) {
+			sevenCalled = true;
+			now_shape = past.getCardShape();
+		}
 	}
+	
 	
 	public Card[] showUserDeck() {
 		return user_deck;
 	}
-	
 	public Card[] showAIDeck() {
 		return ai_deck;
 	}
-	
 	public Card showPast() {
 		return past;
 	}
+	public int showTurn() {
+        // 누구의 턴인지 리턴(플레이어 = 1, 에이아이는 0)
+		return turn;
+	}
+	public int showNeed() {
+		return need;
+	}
+	public Card[] showDeck() {
+		if(deck_len <= 0)
+			return null;
+		if(deck_len > 0) {
+			Card[] tmp = new Card[deck_len];
+			for(int i = 0; i < deck_len; i++) {
+				tmp[i] = deck[i];
+			}
+			return tmp;
+		}else {
+			return null;
+		}
+	}
+	public int showUserDeckLen() {
+		return user_deck_len;
+	}
+	public int showAiDeckLen() {
+		return ai_deck_len;
+	}
+	public int showDeckLen() {
+		return deck_len;
+	}
+	public void checkDecksLen() {
+		int end = 0, n = 1;
+		while(end != 3) {
+			if(deck[n-1] != null && deck[n] == null) {
+				end += 1;
+				deck_len = n;
+			}
+			if(ai_deck[n-1] != null && ai_deck[n] == null){
+				end += 1;
+				ai_deck_len = n;
+			}
+			if(user_deck[n-1] != null && user_deck[n] == null){
+				end += 1;
+				user_deck_len = n;
+			}
+			n += 1;
+		}
+	}
 	
-	public boolean isPossible(Card present_c, Player p) {
-		// 가능하면 true, used_card_deck에 추가 + 턴을 넘길 수 있는지 판단 + 다음 플레이어가 먹을 카드 수 판단
-		int past_n = past.getCardNum();
-		int now_n = present_c.getCardNum();
-		String past_s = past.getCardShape();
-		String now_s = present_c.getCardShape();
-		System.out.println("turn : "+turn+"\nispossible\npast : "+past_s+":"+past_n+"\nnow : "+now_s+":"+now_n);
-		if((p instanceof User && turn == 1) || (p instanceof AI && turn == 0)) {
-			System.out.println("finding...");
-			if(sevenCalled) {
-				if(past_n == now_n || now_s.equals(now_shape) || now_n == 14) {
-					need += howManyNeed(now_n, now_s);
-					sevenCalled = false;
-					past = present_c;
-					if(now_n == 7) {
-						gameFrame.sevenCalled();
-						sevenCalled = true;
-					}
-					return true;
-				}else {
-					return false;
-				}
-			}else {
-				if(past_n <= 13 && past_n > 2) {
-					if(past_n == now_n || past_s.equals(now_s) || now_n == 14) {
-						if(now_n != 11 && now_n != 13)
-							changeTurn();
-						System.out.println("ispossible-normal "+now_s + ":"+now_n);
+	public boolean CardPayed(Card c, Player p) {
+		if(p instanceof User ? (turn == 1 ? true : false) : (turn == 0 ? true : false)) {
+			int past_n = past.getCardNum();
+			int now_n = c.getCardNum();
+			String past_s = past.getCardShape();
+			String now_s = c.getCardShape();
+			String player = (p instanceof User ? "User" : "Ai");
+			
+			if(sevenCalled == false) {
+				if(past_n != 1 &&  past_n != 2 && past_n != 14) {
+					if(now_n == past_n || past_s.equals(now_s) || now_n==14) {
 						need += howManyNeed(now_n, now_s);
-						past = present_c;
-						if(now_n == 7 && turn == 0) {
-							gameFrame.sevenCalled();
+						if(now_n == 7) {
 							sevenCalled = true;
+							System.out.println(player+" 해당 카드 지불 가능("+past_s+":"+past_n+") : "+now_s+":"+now_n+"\nsevenCalled -> true");
+						}else {
+							System.out.println(player+" 해당 카드 지불 가능("+past_s+":"+past_n+") : "+now_s+":"+now_n);
 						}
+						past = c;
 						return true;
 					}else {
+						System.out.println(player+" 해당 카드 지불 불가능("+past_s+":"+past_n+") : "+now_s+":"+now_n);
 						return false;
 					}
-				}else{
+				}else {
 					if(past_n == 1) {
 						if(now_n == 1 || now_n == 14) {
 							need += howManyNeed(now_n, now_s);
-							past = present_c;
-							changeTurn();
+							past = c;
 							return true;
 						}else {
+							System.out.println(player+" 해당 카드 지불 불가능("+past_s+":"+past_n+") : "+now_s+":"+now_n);
 							return false;
 						}
 					}else if(past_n == 2) {
 						if(now_n == 2 || now_n == 1 || now_n == 14) {
 							need += howManyNeed(now_n, now_s);
-							past = present_c;
-							changeTurn();
+							past = c;
 							return true;
 						}else {
-							return false;
-						}
-					}else if(past_n == 14) {
-						if(now_n == 14) {
-							need += howManyNeed(now_n, now_s);
-							changeTurn();
-							return true;
-						}else {
+							System.out.println(player+" 해당 카드 지불 불가능("+past_s+":"+past_n+") : "+now_s+":"+now_n);
 							return false;
 						}
 					}else {
-						return false;
+						if(now_n == 14) {
+							need += howManyNeed(now_n, now_s);
+							past = c;
+							return true;
+						}else {
+							System.out.println(player+" 해당 카드 지불 불가능("+past_s+":"+past_n+") : "+now_s+":"+now_n);
+							return false;
+						}
 					}
+				}
+			}else {
+				if(now_s.equals(now_shape) || now_n == 7 || now_n == 14) {
+					need += howManyNeed(now_n, now_s);
+					sevenCalled = false;
+					System.out.println(player+" 해당 카드 지불 가능("+past_s+":"+past_n+") : "+now_s+":"+now_n+"sevenCalled -> false");
+					past = c;
+					return true;
+				}else {
+					System.out.println(player+" 해당 카드 지불 불가능("+past_s+":"+past_n+") : "+now_s+":"+now_n);
+					return false;
 				}
 			}
 		}else {
 			return false;
 		}
-		
+	}
+	
+	public void changeNowShape(String s) {
+		now_shape = s;
 	}
 	
 	@SuppressWarnings("unused")
@@ -169,15 +219,10 @@ public class OneCard {
 		}else if(n == 2) {
 			return 2;
 		}else {
-			System.out.println("ERROR howManyNeed : "+n+", "+s);
 			return 0;
 		}
 	}
 	
-	public int showTurn() {
-        // 누구의 턴인지 리턴(플레이어 = 1, 에이아이는 0)
-		return turn;
-	}
 	
 	public void changeTurn() {
 		if (turn == 0) {
@@ -189,10 +234,14 @@ public class OneCard {
 		}
 	}
 	
+	
 	public Card[] giveCards() {
 		// 줘야할 카드 수만큼 주기
+		if(deck_len == 0)
+			return null;
+		if(need > deck_len)
+			need = deck_len;
 		Card[] tmp = new Card[need];
-		
 		for(int i = 0; i < need; i++) {
 			tmp[i] = deck[i];
 		}
@@ -208,20 +257,34 @@ public class OneCard {
 	}
 	
 	public void getCards(Card[] cs) {
-		if(turn == 1) {
-			for(int i = user_deck_len; i < user_deck_len+cs.length; i++) {
-				user_deck[i] = cs[i-user_deck_len];
+		if(cs != null) {
+			if(turn == 1) {
+				for(int i = user_deck_len; i < user_deck_len+cs.length; i++) {
+					user_deck[i] = cs[i-user_deck_len];
+				}
+				user_deck_len += cs.length;
+				System.out.println("user_deck_len: "+user_deck_len);
+			}else {
+				for(int i = ai_deck_len; i < ai_deck_len+cs.length; i++) {
+					ai_deck[i] = cs[i-ai_deck_len];
+				}
+				ai_deck_len += cs.length;
+				System.out.println("ai_deck_len: "+ai_deck_len);
 			}
-			user_deck_len += cs.length;
-			System.out.println("user_deck_len: "+user_deck_len);
-		}else {
-			for(int i = ai_deck_len; i < ai_deck_len+cs.length; i++) {
-				ai_deck[i] = cs[i-ai_deck_len];
-			}
-			ai_deck_len += cs.length;
-			System.out.println("ai_deck_len"+ai_deck_len);
+		}
+		changePast();
+	}
+	
+	public void changePast() {
+		if(deck_len != 0) {
+			past = deck[0];
+			for(int i = 0; i < deck_len-1; i++)
+				deck[i] = deck[i+1];
+			deck[deck_len-2] = null;
+			deck_len -= 1;
 		}
 	}
+	
 	
 	public void sevenCall(String s) {
 		//카드 모양 바꾸기
@@ -229,29 +292,6 @@ public class OneCard {
 		sevenCalled = true;
 	}
 	
-	public Card[] showDeck() {
-		if(deck_len > 0) {
-			Card[] tmp = new Card[deck_len];
-			for(int i = 0; i < deck_len; i++) {
-				tmp[i] = deck[i];
-			}
-			return tmp;
-		}else {
-			return null;
-		}
-	}
-	
-	public int showUserDeckLen() {
-		return user_deck_len;
-	}
-	
-	public int showAiDeckLen() {
-		return ai_deck_len;
-	}
-	
-	public int showDeckLen() {
-		return deck_len;
-	}
 	
 	public void erase(Card c, Player p) {
 		if(p instanceof User) {
@@ -279,9 +319,8 @@ public class OneCard {
 			}
 		}
 	}
-	public int showNeed() {
-		return need;
-	}
+	
+	
 //	public static void main(String[] args) {
 //		OneCard game = new OneCard();
 //		Card[] c = game.showAIDeck();

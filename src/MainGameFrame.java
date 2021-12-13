@@ -1,5 +1,6 @@
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class MainGameFrame extends JFrame{
 	private Card[] user_deck;
 	private Card[] ai_deck;
@@ -21,9 +22,15 @@ public class MainGameFrame extends JFrame{
 	private JLabel user_status;
 	private JLabel ai_status;
 	private JLabel turn_status;
+	private JLabel needsLabel;
+//	private JLabel nowShape;
 	
-	
-	@SuppressWarnings("deprecation")
+	private String winner;
+
+	private ImageIcon background = new ImageIcon("./img/board.png");
+	private JLabel bgLabel=new JLabel();
+
+
 	public MainGameFrame(String name) {
 		//창 생성(창 활성화)
         //OneCard 실행
@@ -36,6 +43,9 @@ public class MainGameFrame extends JFrame{
 		setVisible(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
+		
+		bgLabel.setIcon(background);
+		bgLabel.setBounds(0,0,1800,1000);
 		
 		game = new OneCard(this);
 		
@@ -67,116 +77,107 @@ public class MainGameFrame extends JFrame{
 		user_status = new JLabel();
 		ai_status = new JLabel();
 		turn_status = new JLabel();
+		needsLabel = new JLabel();
 
-		user_status.setText("<user> 남은 카드 : 11장");
+		user_status.setText("<"+user.showUserName()+"> 남은 카드 : 11장");
 		ai_status.setText("<ai> 남은 카드 : 11장");
 		turn_status.setText("현재 턴 : user");
-		
-		start();
+		needsLabel.setText("먹어야 하는 카드 수 : 1 장");
+
+		update();
+		updateCards();
 		checkEnd();
-		repaint();
 	}
 	
-	public void start() {
-		//댁 분배를 보여준다
-		deck_button.setBounds(900-cardSize[0]-cardSize[0]/3, windowSize[1]/2-cardSize[1]/2, cardSize[0], cardSize[1]);
-		add(deck_button);
-		past_button.setBounds(900+cardSize[0]/3, windowSize[1]/2-cardSize[1]/2, cardSize[0], cardSize[1]);
-		add(past_button);
-		
-//		ai_card_buttons
-		int ai_x;
-		if(game.showAiDeckLen() % 2 == 0) {
-			ai_x = (int)(windowSize[0]/2-((int)(game.showUserDeckLen()/2)*5/6+11/12)*cardSize[0]);
-			for(int i = 0; i < game.showUserDeckLen(); i++) {
-				ai_card_buttons[i].setBounds(ai_x+i*(cardSize[0]*5/6),cardSize[1]/7, cardSize[0], cardSize[1]);
-				ai_card_buttons[i].changeBack();
-				add(ai_card_buttons[i]);
+//	public void paint(Graphics g) {//그리는 함수
+//		g.drawImage(background, 0, 0, null);//background를 그려줌
+//	}
+	
+	public void userClicked(Card c) {
+		if(game.CardPayed(c, user)) {
+			needsLabel.setText("먹어야 하는 카드 수 : "+game.showNeed()+" 장");
+			if(c.getCardNum() != 13 && c.getCardNum() != 11) {
+				game.changeTurn();
 			}
-		}else {
-			ai_x = (int)(windowSize[0]/2-((int)(game.showUserDeckLen()/2)*5/6+0.5)*cardSize[0]);
-			for(int i = 0; i < game.showAiDeckLen(); i++) {
-				ai_card_buttons[i].setBounds(ai_x+i*(cardSize[0]*4/5), cardSize[1]/7, cardSize[0], cardSize[1]);
-				ai_card_buttons[i].changeBack();
-				add(ai_card_buttons[i]);
-			}
+			if(c.getCardNum() == 7)
+				game.changeNowShape(showChangeCard());
+			user.eraseCard(c);
+			update();
 		}
-		
-//		user_card_buttons
-		int user_x;
-		if(game.showUserDeckLen() % 2 == 0) {
-			user_x = (int)(windowSize[0]/2-((int)(game.showUserDeckLen()/2)*5/6+11/12)*cardSize[0]);
-			for(int i = 0; i < game.showUserDeckLen(); i++) {
-				user_card_buttons[i].setBounds(user_x+i*(cardSize[0]*5/6), 740, cardSize[0], cardSize[1]);
-				add(user_card_buttons[i]);
-			}
+	}
+	
+	public void aiClicked(Card c) {
+		needsLabel.setText("먹어야 하는 카드 수 : "+game.showNeed()+" 장");
+		if(c.getCardNum() != 13 && c.getCardNum() != 11)
+			game.changeTurn();
+		if(c.getCardNum() == 7)
+			game.changeNowShape(ai.showAiChangeCard());
+		ai.eraseCard(c);
+		update();
+	}
+	
+	public void aiCantClicked() {
+		needsLabel.setText("먹어야 하는 카드 수 : "+game.showNeed()+" 장");
+		game.getCards(game.giveCards());
+		game.changeTurn();
+		update();
+	}
+	
+	public String showChangeCard() {
+		String s = JOptionPane.showInputDialog("바꾸고 싶은 카드를 선택하시오(S:1, C:2, H:3, D:4)");
+		System.out.println(s);
+		if(s.equals("1")||s.equals("2")||s.equals("3")||s.equals("4")) {
+			if(s.equals("1"))
+				return "spade";
+			if(s.equals("2"))
+				return "clover";
+			if(s.equals("3"))
+				return "heart";
+			return "diamond";
 		}else {
-			user_x = (int)(windowSize[0]/2-((int)(game.showUserDeckLen()/2)*5/6+0.5)*cardSize[0]);
-			for(int i = 0; i < game.showUserDeckLen(); i++) {
-				user_card_buttons[i].setBounds(user_x+i*(cardSize[0]*5/6), 740, cardSize[0], cardSize[1]);
-				add(user_card_buttons[i]);
-			}
+			return showChangeCard();
 		}
-		
-		
-		user_status.setBounds(216, 700-30,300,30);
-		user_status.setFont(user_status.getFont().deriveFont(20.0f));
-		ai_status.setBounds(216, cardSize[1]/7+cardSize[1]+40,300,30);
-		ai_status.setFont(user_status.getFont());
-		turn_status.setBounds(216, 500,300,30);
-		turn_status.setFont(user_status.getFont());
-		
-		add(user_status);
-		add(ai_status);
-		add(turn_status);
 	}
 	
 	
-    public void deckClicked() {
+	public void deckClicked() {
 		//턴을 확인 해당 플레이어에게 카드 맥이기
     	//턴 넘기기
     	System.out.println("deckClicked");
-    	if(deck.length > 0 || deck.length - game.showNeed() >= 0) {
-        	game.getCards(game.giveCards());
-        	game.changeTurn();
+    	game.getCards(game.giveCards());
+    	game.changeTurn();
 //        	game.updatePast();
-        	update();
-        	if(game.showTurn() == 0)
-        		callAi();
-    	}else {
-    		deckIsZero();
-    	}
+    	update();
 	}
     
+	
 	public boolean checkEnd() {
 		//게임이 끝났는지 확인
-		if(ai.showCardsLen() == 0 || user.showCardsLen() == 0)
+		if(ai.showCardsLen() <= 0 || user.showCardsLen() <= 0)
 			return true;
 		return false;
 	}
 	
 	public void update() {
-		//전체적인 프레임 업데이트
-		updateCards();
-		//게임이 끝났는지 확인
-		if(checkEnd()) {
-			gameEnd();
+		boolean end = false;
+		while(true) {
+			if(isEndByLen() || checkEnd()) {
+				gameEnd();
+				end = true;
+				break;
+			}
+			//전체적인 프레임 업데이트
+			
+			updateCards();
+			break;
 		}
-        //AI턴이면 ai.play()
-		//턴변수 재지정
-        //끝났는지 확인 => isEnd()
-            //gameEnd()
-        //else{
-            //누구 턴인지 출력
-		if(checkEnd()) {
-			gameEnd();
+		if(end == true) {
+			System.out.println("정상종료");
+			gameIsEnd();
+		}else {
+			if(game.showTurn() == 0)
+				ai.play();
 		}
-		updateCards();
-		repaint();
-	}
-	
-	public void callAi() {
-		ai.play();
 	}
 	
 	public void showChangingButton() {
@@ -187,9 +188,15 @@ public class MainGameFrame extends JFrame{
 		
 		for(int i = 0; i < 4; i ++) {
 			change_buttons[i].setBounds(tmp+i*(cardSize[0]*5/6),windowSize[1]/2-cardSize[1]/2,cardSize[0],cardSize[1]);
-			add(change_buttons[i]);
+			getContentPane().add(change_buttons[i]);
 		}
 		update();
+	}
+	
+	public boolean isEndByLen() {
+		if(game.showAiDeckLen() >= 18 || game.showUserDeckLen() >= 18)
+			return true;
+		return false;
 	}
 	
 	public void eraseChangingButton() {
@@ -204,10 +211,8 @@ public class MainGameFrame extends JFrame{
 	public void gameEnd() {
 		//이긴사람확인, 버튼 클릭 막고, 이긴사람 출력(게임종료 인터페이스)
 		turnOnOff(false);
-		JLabel winner = new JLabel("winner : "+(game.showTurn()==0?"user":"ai"));
-		winner.setBounds(600,400,200,200);
-		winner.setFont(winner.getFont().deriveFont(40.0f));
-		getContentPane().add(winner);
+		System.out.println("GameEnd");
+		winner = (game.showTurn()==1?"user":"ai");
 	}
 	
 	public void sevenCalled() {
@@ -218,44 +223,50 @@ public class MainGameFrame extends JFrame{
 	public void updateCards() {
 //		컴포넌트 초기화\
 		getContentPane().removeAll();
-		
+
 		ai_deck = game.showAIDeck();
 		user_deck = game.showUserDeck();
 		deck = game.showDeck();
 		past = game.showPast();
 		past_button = new CardButton(past, null, this);
 		
-		for(int i = 0; i < game.showAiDeckLen(); i++) 
-			ai_card_buttons[i] = new CardButton(ai_deck[i], ai, this);
-		for(int i = 0; i < game.showUserDeckLen(); i++)
-			user_card_buttons[i] = new CardButton(user_deck[i], user, this);
+		game.checkDecksLen();
 		
-		user_status.setText("<user> 남은 카드 : "+game.showUserDeckLen());
+		for(int i = 0; i < game.showAiDeckLen(); i++) {
+			if(ai_deck[i] != null)
+				ai_card_buttons[i] = new CardButton(ai_deck[i], ai, this);
+		}
+		for(int i = 0; i < game.showUserDeckLen(); i++) {
+			if(user_deck[i] != null)
+				user_card_buttons[i] = new CardButton(user_deck[i], user, this);
+		}
+
+		user_status.setText("<"+user.showUserName()+"> 남은 카드 : 11장");
 		ai_status.setText("<ai> 남은 카드 : "+game.showAiDeckLen());
 		turn_status.setText("현재 턴 : "+(game.showTurn()==1?"user":"ai"));
 		
 		
 		//댁 분배를 보여준다
 		deck_button.setBounds(900-cardSize[0]-cardSize[0]/3, windowSize[1]/2-cardSize[1]/2, cardSize[0], cardSize[1]);
-		add(deck_button);
+		getContentPane().add(deck_button);
 		past_button.setBounds(900+cardSize[0]/3, windowSize[1]/2-cardSize[1]/2, cardSize[0], cardSize[1]);
-		add(past_button);
+		getContentPane().add(past_button);
 		
 //		ai_card_buttons
 		int ai_x;
 		if(game.showAiDeckLen() % 2 == 0) {
 			ai_x = (int)(windowSize[0]/2-((int)(game.showUserDeckLen()/2)*5/6+11/12)*cardSize[0]);
-			for(int i = 0; i < game.showUserDeckLen(); i++) {
+			for(int i = 0; i < game.showAiDeckLen(); i++) {
 				ai_card_buttons[i].setBounds(ai_x+i*(cardSize[0]*5/6),cardSize[1]/7, cardSize[0], cardSize[1]);
 				ai_card_buttons[i].changeBack();
-				add(ai_card_buttons[i]);
+				getContentPane().add(ai_card_buttons[i]);
 			}
 		}else {
 			ai_x = (int)(windowSize[0]/2-((int)(game.showUserDeckLen()/2)*5/6+0.5)*cardSize[0]);
 			for(int i = 0; i < game.showAiDeckLen(); i++) {
 				ai_card_buttons[i].setBounds(ai_x+i*(cardSize[0]*4/5), cardSize[1]/7, cardSize[0], cardSize[1]);
 				ai_card_buttons[i].changeBack();
-				add(ai_card_buttons[i]);
+				getContentPane().add(ai_card_buttons[i]);
 			}
 		}
 		
@@ -265,13 +276,13 @@ public class MainGameFrame extends JFrame{
 			user_x = (int)(windowSize[0]/2-((int)(game.showUserDeckLen()/2)*5/6+11/12)*cardSize[0]);
 			for(int i = 0; i < game.showUserDeckLen(); i++) {
 				user_card_buttons[i].setBounds(user_x+i*(cardSize[0]*5/6), 740, cardSize[0], cardSize[1]);
-				add(user_card_buttons[i]);
+				getContentPane().add(user_card_buttons[i]);
 			}
 		}else {
 			user_x = (int)(windowSize[0]/2-((int)(game.showUserDeckLen()/2)*5/6+0.5)*cardSize[0]);
 			for(int i = 0; i < game.showUserDeckLen(); i++) {
 				user_card_buttons[i].setBounds(user_x+i*(cardSize[0]*5/6), 740, cardSize[0], cardSize[1]);
-				add(user_card_buttons[i]);
+				getContentPane().add(user_card_buttons[i]);
 			}
 		}
 		
@@ -282,37 +293,45 @@ public class MainGameFrame extends JFrame{
 		ai_status.setFont(user_status.getFont());
 		turn_status.setBounds(216, 500,300,30);
 		turn_status.setFont(user_status.getFont());
+		needsLabel.setBounds(216, 600,300,30);
+		needsLabel.setFont(user_status.getFont());
 		
-		add(user_status);
-		add(turn_status);
-		add(ai_status);
-		add(new JLabel());
+		
+		
+		getContentPane().add(user_status);
+		getContentPane().add(turn_status);
+		getContentPane().add(ai_status);
+		getContentPane().add(needsLabel);
+		getContentPane().add(bgLabel);
+		getContentPane().add(new JLabel());
+		getContentPane().repaint();
 	}
 	
 	public void changeTurnStatus(String s) {
 		turn_status.setText(s);
 		turn_status.setBounds(216, 500,300,30);
-		update();
 	}
 	
 	public void turnOnOff(boolean t) {
 
 		for(int i = 0; i < game.showAiDeckLen(); i++) {
-			ai_card_buttons[i].setEnabled(t);
+			if(ai_card_buttons[i] != null)
+				ai_card_buttons[i].setEnabled(t);
 		}
 		for(int i = 0; i < game.showUserDeckLen(); i++) {
-			user_card_buttons[i].setEnabled(t);
+			if(user_card_buttons[i] != null)
+				user_card_buttons[i].setEnabled(t);
 		}
 		deck_button.setEnabled(t);
 		past_button.setEnabled(t);
 	}
 	
-	public void deckIsZero() {
-		System.out.println("deck.lengh = "+deck.length);
-		deck_button.setEnabled(false);
-		update();
+	public void gameIsEnd() {
+		setVisible(false);
+		new EndFrame(winner);
 	}
 	
+//	테스트 코드
 	public static void main(String[] args) {
 		new MainGameFrame("test");
 	}

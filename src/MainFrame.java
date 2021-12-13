@@ -23,7 +23,6 @@ public class MainFrame extends JFrame{
 		ImageIcon img=new ImageIcon("./img/start.png");
 		imgLabel.setIcon(img);
 		//imgLabel.setHorizontalAlignment(JLabel.CENTER);
-		getContentPane().add(imgLabel);
 		
 		
 		
@@ -47,8 +46,8 @@ public class MainFrame extends JFrame{
 		
 		getContentPane().add(tuto);
 		getContentPane().add(main);
-		
+		getContentPane().add(imgLabel);
+		repaint();
 	}
-	
 	
 }

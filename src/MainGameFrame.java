@@ -30,7 +30,7 @@ public class MainGameFrame extends JFrame{
 	private ImageIcon background = new ImageIcon("./img/board.png");
 	private JLabel bgLabel=new JLabel();
 
-
+	
 	public MainGameFrame(String name) {
 		//창 생성(창 활성화)
         //OneCard 실행
@@ -102,6 +102,7 @@ public class MainGameFrame extends JFrame{
 			if(c.getCardNum() == 7)
 				game.changeNowShape(showChangeCard());
 			user.eraseCard(c);
+			
 			update();
 		}
 	}
@@ -173,6 +174,7 @@ public class MainGameFrame extends JFrame{
 		}
 		if(end == true) {
 			System.out.println("정상종료");
+			System.out.println("winner : "+winner);
 			gameIsEnd();
 		}else {
 			if(game.showTurn() == 0)
@@ -190,6 +192,7 @@ public class MainGameFrame extends JFrame{
 			change_buttons[i].setBounds(tmp+i*(cardSize[0]*5/6),windowSize[1]/2-cardSize[1]/2,cardSize[0],cardSize[1]);
 			getContentPane().add(change_buttons[i]);
 		}
+		
 		update();
 	}
 	

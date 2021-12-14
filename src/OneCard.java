@@ -204,22 +204,42 @@ public class OneCard {
 	
 	@SuppressWarnings("unused")
 	private int howManyNeed(int n, String s) {
-		if(n == 1) {
-			if(s.equals("spade")) {
-				return 5;
+		if(need != 1) {
+			if(n == 1) {
+				if(s.equals("spade")) {
+					return 5;
+				}else {
+					return 3;
+				}
+			}else if(n == 14) {
+				if(s.equals("color")) {
+					return 10;
+				}else {
+					return 7;
+				}
+			}else if(n == 2) {
+				return 2;
 			}else {
-				return 3;
+				return 0;
 			}
-		}else if(n == 14) {
-			if(s.equals("color")) {
-				return 10;
-			}else {
-				return 7;
-			}
-		}else if(n == 2) {
-			return 2;
 		}else {
-			return 0;
+			if(n == 1) {
+				if(s.equals("spade")) {
+					return 4;
+				}else {
+					return 2;
+				}
+			}else if(n == 14) {
+				if(s.equals("color")) {
+					return 9;
+				}else {
+					return 6;
+				}
+			}else if(n == 2) {
+				return 1;
+			}else {
+				return 0;
+			}
 		}
 	}
 	

@@ -15,7 +15,7 @@ public class MainFrame extends JFrame{
 //		mainC.setLayout(new BorderLayout());
 		
 		setTitle("OneCard");
-		setSize(1800, 1000);
+		setSize(1800+16, 1000+39);
 		setVisible(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		

@@ -11,7 +11,6 @@ public class MainGameFrame extends JFrame{
 	private CardButton[] user_card_buttons;
 	private CardButton[] ai_card_buttons;
 	private DeckButton deck_button;
-	private ChangingButton[] change_buttons;
 	private AI ai;
 	private User user;
 	private int[] windowSize = {1800,1000};
@@ -67,12 +66,6 @@ public class MainGameFrame extends JFrame{
 			user_card_buttons[i] = new CardButton(user_deck[i], user, this);
 		
 		deck_button = new DeckButton(game, this);
-		
-		change_buttons = new ChangingButton[4];
-		change_buttons[0] = new ChangingButton(game, this, "Spade");
-		change_buttons[1] = new ChangingButton(game, this, "Clover");
-		change_buttons[2] = new ChangingButton(game, this, "Heart");
-		change_buttons[3] = new ChangingButton(game, this, "Diamond");
 		
 		user_status = new JLabel();
 		ai_status = new JLabel();
@@ -182,33 +175,11 @@ public class MainGameFrame extends JFrame{
 		}
 	}
 	
-	public void showChangingButton() {
-		//바꾸는 버튼 활성화 및 다른 버튼 클릭 막기
-		turnOnOff(false);
-		
-		int tmp = (int)(windowSize[0]/2-((int)(game.showUserDeckLen()/2)*5/6+11/12)*cardSize[0]);
-		
-		for(int i = 0; i < 4; i ++) {
-			change_buttons[i].setBounds(tmp+i*(cardSize[0]*5/6),windowSize[1]/2-cardSize[1]/2,cardSize[0],cardSize[1]);
-			getContentPane().add(change_buttons[i]);
-		}
-		
-		update();
-	}
 	
 	public boolean isEndByLen() {
 		if(game.showAiDeckLen() >= 18 || game.showUserDeckLen() >= 18)
 			return true;
 		return false;
-	}
-	
-	public void eraseChangingButton() {
-		//바꾸는 버튼 비활성화
-		for(int i = 0; i < 4; i++) {
-			getContentPane().remove(change_buttons[i]);
-		}
-		turnOnOff(true);
-		
 	}
 	
 	public void gameEnd() {
@@ -218,10 +189,6 @@ public class MainGameFrame extends JFrame{
 		winner = (game.showTurn()==1?"user":"ai");
 	}
 	
-	public void sevenCalled() {
-		//changingButton 활성화
-		showChangingButton();
-	}
 	
 	public void updateCards() {
 //		컴포넌트 초기화\

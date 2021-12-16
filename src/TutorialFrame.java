@@ -40,7 +40,7 @@ public class TutorialFrame extends JFrame{
    private JLabel special1;
    private JLabel special2;
    private JLabel special3;
-   
+
    public TutorialFrame() {
       setTitle("Tutorial");
       setSize(800, 800);
@@ -129,38 +129,38 @@ public class TutorialFrame extends JFrame{
    }
    
    public void setOnePage() {
-      basicRule = new JLabel("원카드 기본 규칙");
-      rule1 = new JLabel("1. 서로 턴을 돌아가면서 한장씩 카드를 냅니다.");
-      rule2 = new JLabel("2. 오픈 된 카드와 모양이 같거나 숫자가 같아야만 카드를 낼 수 있습니다.");
-      rule3 = new JLabel("3. 내려놓을 카드가 없다면 뒤집어진 카드에서 한 장을 가져옵니다.");
-      rule4 = new JLabel("4. 모든 카드를 내려 놓은 사람이 승리합니다.");
-      
-      basicRule.setBounds(0, 70, 800, 50);
-      basicRule.setHorizontalAlignment(JLabel.CENTER);
-      basicRule.setFont(basicRule.getFont().deriveFont(50.0f));
-      add(basicRule);
-      rule1.setBounds(0, 250, 800, 50);
-      rule1.setHorizontalAlignment(JLabel.CENTER);
-      rule1.setFont(rule1.getFont().deriveFont(20.0f));
-      add(rule1);
-      rule2.setBounds(0, 350, 800, 50);
-      rule2.setHorizontalAlignment(JLabel.CENTER);
-      rule2.setFont(rule1.getFont().deriveFont(20.0f));
-      add(rule2);
-      rule3.setBounds(0, 450, 800, 50);
-      rule3.setHorizontalAlignment(JLabel.CENTER);
-      rule3.setFont(rule1.getFont().deriveFont(20.0f));
-      add(rule3);
-      rule4.setBounds(0, 550, 800, 50);
-      rule4.setHorizontalAlignment(JLabel.CENTER);
-      rule4.setFont(rule1.getFont().deriveFont(20.0f));
-      add(rule4);
-      //basicRule.setVisible(false);
-      //rule1.setVisible(false);
-      //rule2.setVisible(false);
-      //rule3.setVisible(false);
-      //rule4.setVisible(false);
-   }
+	      basicRule = new JLabel("원카드 기본 규칙");
+	      rule1 = new JLabel("1. 서로 턴을 돌아가면서 한장씩 카드를 냅니다.");
+	      rule2 = new JLabel("2. 오픈 된 카드와 모양이 같거나 숫자가 같아야만 카드를 낼 수 있습니다.");
+	      rule3 = new JLabel("3. 내려놓을 카드가 없다면 뒤집어진 카드에서 한 장을 가져옵니다.");
+	      rule4 = new JLabel("4. 모든 카드를 내려 놓은 사람이 승리합니다.");
+	      
+	      basicRule.setBounds(0, 70, 800, 50);
+	      basicRule.setHorizontalAlignment(JLabel.CENTER);
+	      basicRule.setFont(basicRule.getFont().deriveFont(50.0f));
+	      add(basicRule);
+	      rule1.setBounds(0, 250, 800, 50);
+	      rule1.setHorizontalAlignment(JLabel.CENTER);
+	      rule1.setFont(rule1.getFont().deriveFont(20.0f));
+	      add(rule1);
+	      rule2.setBounds(0, 350, 800, 50);
+	      rule2.setHorizontalAlignment(JLabel.CENTER);
+	      rule2.setFont(rule1.getFont().deriveFont(20.0f));
+	      add(rule2);
+	      rule3.setBounds(0, 450, 800, 50);
+	      rule3.setHorizontalAlignment(JLabel.CENTER);
+	      rule3.setFont(rule1.getFont().deriveFont(20.0f));
+	      add(rule3);
+	      rule4.setBounds(0, 550, 800, 50);
+	      rule4.setHorizontalAlignment(JLabel.CENTER);
+	      rule4.setFont(rule1.getFont().deriveFont(20.0f));
+	      add(rule4);
+	      //basicRule.setVisible(false);
+	      //rule1.setVisible(false);
+	      //rule2.setVisible(false);
+	      //rule3.setVisible(false);
+	      //rule4.setVisible(false);
+	   }
    
    public void setTwoPage() {
       card = new JLabel("특별 능력이 있는 카드들");

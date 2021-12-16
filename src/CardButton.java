@@ -22,9 +22,6 @@ public class CardButton extends JButton implements ActionListener{
 		addActionListener(this);
 	}
 	
-	public ImageIcon showImg() {
-		return main_img;
-	}
 	
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("card clicked : "+card.getCardNum());

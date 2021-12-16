@@ -14,19 +14,6 @@ public abstract class Player {
 		game = g;
 	}
 	
-	public void getCard(Card c) {
-		cards[len] = c;
-		len += 1;
-	}
-	public Card giveCard(int n) {
-		Card c = cards[n];
-		for(int i = n+1; i < len; i++) {
-			cards[i-1] = cards[i];
-		}
-		cards[len] = null;
-		len -= 1;
-		return c;
-	}
 	public Card[] showCards() {
 		return cards;
 	}
